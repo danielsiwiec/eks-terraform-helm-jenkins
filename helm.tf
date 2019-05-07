@@ -1,19 +1,6 @@
-provider "helm" {
-  install_tiller  = true
-  service_account = "${kubernetes_service_account.tiller.metadata.0.name}"
-  namespace       = "${kubernetes_service_account.tiller.metadata.0.namespace}"
-  tiller_image    = "gcr.io/kubernetes-helm/tiller:v2.11.0"
-
-  kubernetes {
-    config_path = "${module.eks.kubeconfig_filename}"
-  }
-
-}
-
-resource "null_resource" "helm_init" {
-  provisioner "local-exec" {
-    command = "helm init --service-account tiller --wait --kubeconfig ${module.eks.kubeconfig_filename}"
-  }
+locals {
+  service_account = "tiller"
+  service_account_namespace = "kube-system"
 }
 
 provider "kubernetes" {
@@ -22,8 +9,8 @@ provider "kubernetes" {
 
 resource "kubernetes_service_account" "tiller" {
   metadata {
-    name      = "tiller"
-    namespace = "kube-system"
+    name      = "${local.service_account}"
+    namespace = "${local.service_account_namespace}"
   }
 
   automount_service_account_token = true
@@ -31,7 +18,7 @@ resource "kubernetes_service_account" "tiller" {
 
 resource "kubernetes_cluster_role_binding" "tiller" {
   metadata {
-    name = "tiller"
+    name = "${local.service_account}"
   }
 
   role_ref {
@@ -43,7 +30,16 @@ resource "kubernetes_cluster_role_binding" "tiller" {
   subject {
     api_group = ""
     kind      = "ServiceAccount"
-    name      = "tiller"
-    namespace = "kube-system"
+    name      = "${local.service_account}"
+    namespace = "${local.service_account_namespace}"
+  }
+}
+
+provider "helm" {
+  service_account = "${local.service_account}"
+  namespace       = "${local.service_account_namespace}"
+
+  kubernetes {
+    config_path = "${module.eks.kubeconfig_filename}"
   }
 }

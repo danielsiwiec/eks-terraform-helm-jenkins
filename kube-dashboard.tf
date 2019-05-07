@@ -2,7 +2,6 @@ resource "helm_release" "kubernetes-dashboard" {
   name  = "kubernetes-dashboard"
   namespace = "kube-system"
   chart = "stable/kubernetes-dashboard"
-  depends_on = ["kubernetes_service_account.tiller", "kubernetes_cluster_role_binding.tiller", "null_resource.helm_init"]
 
   set {
     name = "fullnameOverride"
