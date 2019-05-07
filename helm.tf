@@ -1,5 +1,5 @@
 locals {
-  service_account = "tiller"
+  service_account           = "tiller"
   service_account_namespace = "kube-system"
 }
 
@@ -14,7 +14,7 @@ resource "kubernetes_service_account" "tiller" {
   }
 
   automount_service_account_token = true
-} 
+}
 
 resource "kubernetes_cluster_role_binding" "tiller" {
   metadata {

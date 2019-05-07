@@ -1,30 +1,30 @@
 resource "helm_release" "kubernetes-dashboard" {
-  name  = "kubernetes-dashboard"
+  name      = "kubernetes-dashboard"
   namespace = "kube-system"
-  chart = "stable/kubernetes-dashboard"
+  chart     = "stable/kubernetes-dashboard"
 
   set {
-    name = "fullnameOverride"
+    name  = "fullnameOverride"
     value = "kubernetes-dashboard"
   }
 
   set {
-    name = "ingress.enabled"
+    name  = "ingress.enabled"
     value = "true"
   }
 
   set {
-    name = "serviceAccount.name"
+    name  = "serviceAccount.name"
     value = "tiller"
   }
 
   set {
-    name = "serviceAccount.create"
+    name  = "serviceAccount.create"
     value = "false"
   }
 
   set {
-    name = "rbac.create"
+    name  = "rbac.create"
     value = "false"
   }
 }

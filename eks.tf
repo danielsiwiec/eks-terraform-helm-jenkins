@@ -19,6 +19,7 @@ locals {
       asg_desired_capacity = "2"
     },
   ]
+
   worker_groups_launch_template = [
     {
       # This will launch an autoscaling group with only Spot Fleet instances
@@ -94,7 +95,6 @@ module "vpc" {
 
   tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "owned"
-    
   }
 }
 
