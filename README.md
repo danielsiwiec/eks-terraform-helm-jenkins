@@ -4,6 +4,7 @@ A terraform setup for AWS EKS with Jenkins, using Helm.
 ## Prerequisites
 - terraform >0.11.13
 - kubectl
+- aws-iam-authenticator
 
 ## Instructions
 - `terraform init`
