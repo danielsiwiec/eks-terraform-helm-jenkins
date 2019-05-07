@@ -3,6 +3,7 @@ A terraform setup for AWS EKS with Jenkins, using Helm.
 
 ## Prerequisites
 - terraform >0.11.13
+- kubectl
 
 ## Instructions
 - `terraform init`
